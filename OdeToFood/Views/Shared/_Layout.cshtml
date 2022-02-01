@@ -43,6 +43,8 @@
             @RenderBody()
         </main>
     </div>
+
+    <div>@await Component.InvokeAsync("BestReview")</div>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - OdeToFood - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

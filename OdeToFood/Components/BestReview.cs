@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OdeToFood.Components
 {
-	[ViewComponent(Name ="BestReview")]
+	[ViewComponent(Name = "BestReview")]
 	public class BestReview : ViewComponent
 	{
 		private List<RestaurantReview> _reviews;
