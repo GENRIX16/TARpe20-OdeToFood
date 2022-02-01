@@ -3,19 +3,23 @@
 @{
     ViewData["Title"] = "Index";
 }
+@section featured {
+    We are showing the latest @Model.Count() reviews.
+    }
 
-<h1>The Latest Reviews</h1>
-We are showing the latest @Model.Count() reviews
+    <h1>The Latest Reviews</h1>
+    
 
-@foreach (var item in Model)
-{
+    @foreach (var item in Model)
+    {
     <div class="review">
-        <h4>@item.Name</h4>
-        <span>@item.Rating</span>
-        <p>@item.City, @item.Country</p>
+    <h4>@item.Name</h4>
+    <span>@item.Rating</span>
+    <p>@item.City, @item.Country</p>
+    <span class="right">@Html.ActionLink("Edit", "Edit", new { id = item.Id })</span>
     </div>
-}
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <p>
+          <a asp-action="Create">Create New</a>
+    </p>
