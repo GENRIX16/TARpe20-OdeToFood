@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OdeToFood.Data;
 using OdeToFood.Models;
-using OdeToFood.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,62 +10,110 @@ namespace OdeToFood.Controllers
 {
 	public class ReviewsController : Controller
 	{
-		private readonly ApplicationDbContext _context;
-
-		public ReviewsController(ApplicationDbContext context)
-		{
-			_context = context;
-		}
 		// GET: ReviewsController
-		public ActionResult Index([Bind(Prefix ="id")] int restaurantId)
+		public ActionResult Index()
 		{
-			var model = _context.Restaurants
-				.FirstOrDefault(r => r.Id == restaurantId);
-			if (model==null)
-			{
-				return NotFound();
-			}
+			var model = from review in _reviews
+						orderby review.Country
+						select review;
 			return View(model);
 		}
 
-		[HttpGet]
-		public ActionResult Create(int restaurantId)
+		// GET: ReviewsController/Details/5
+		public ActionResult Details(int id)
 		{
 			return View();
 		}
-		[HttpPost]
-		public ActionResult Create(int restaurantId, RestaurantReview review)
+
+		// GET: ReviewsController/Create
+		public ActionResult Create()
 		{
-			if (ModelState.IsValid)
-			{
-				_context.Reviews.Add(review);
-				_context.SaveChanges();
-				return RedirectToAction(nameof(Index), new { id = review.RestaurantId });
-			}
-			return View(review);
+			return View();
 		}
-		[HttpGet]
+
+		// POST: ReviewsController/Create
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(IFormCollection collection)
+		{
+			try
+			{
+				return RedirectToAction(nameof(Index));
+			}
+			catch
+			{
+				return View();
+			}
+		}
+
+		// GET: ReviewsController/Edit/5
 		public ActionResult Edit(int id)
 		{
-			var model = _context.Reviews.Find(id);
-			return View(model);
+			return View();
 		}
+
+		// POST: ReviewsController/Edit/5
 		[HttpPost]
-		public ActionResult Edit(int id, ReviewViewModel review)
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(int id, IFormCollection collection)
 		{
-			if (id != review.Id)
+			try
 			{
-				return NotFound();
+				return RedirectToAction(nameof(Index));
 			}
-			if (ModelState.IsValid)
+			catch
 			{
-				var current = _context.Reviews.Find(id);
-				current.Body = review.Body;
-				current.Rating = review.Rating;
-				_context.SaveChanges();
-				return RedirectToAction(nameof(Index), new { id = current.RestaurantId });
+				return View();
 			}
-			return View(review);
 		}
+
+		// GET: ReviewsController/Delete/5
+		public ActionResult Delete(int id)
+		{
+			return View();
+		}
+
+		// POST: ReviewsController/Delete/5
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Delete(int id, IFormCollection collection)
+		{
+			try
+			{
+				return RedirectToAction(nameof(Index));
+			}
+			catch
+			{
+				return View();
+			}
+		}
+
+		private static List<RestaurantReview> _reviews = new List<RestaurantReview>
+		{
+			new RestaurantReview
+			{
+				Id = 1,
+				Name = "Cinnamon Club",
+				City ="London",
+				Country ="UK",
+				Rating = 10
+			},
+			new RestaurantReview
+			{
+				Id = 2,
+				Name = "Marrakesh",
+				City ="D.C.",
+				Country ="USA",
+				Rating = 10
+			},
+			new RestaurantReview
+			{
+				Id = 3,
+				Name = "The House of Elliot",
+				City ="Ghent",
+				Country ="Belgium",
+				Rating = 10
+			}
+		};
 	}
 }
