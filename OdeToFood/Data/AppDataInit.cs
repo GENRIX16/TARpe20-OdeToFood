@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using OdeToFood.Models;
 
 namespace OdeToFood.Data
@@ -13,56 +12,28 @@ namespace OdeToFood.Data
 		{
 			if (!context.Restaurants.Any())
 			{
-				for (int i = 1; i <= 1000; i++)
-				{
-					context.Restaurants.Add(
-							new Restaurant
-							{
-								Name = $"Cinnamon Club {i}",
-								City = "London",
-								Country = "UK",
-								Reviews = new List<RestaurantReview>()
-								{
-							new RestaurantReview()
-							{
-								Rating = 10,
-								Body = "Superlahe"
-							}
-								}
-							});
-					context.Restaurants.Add(
-						new Restaurant
-						{
-							Name = $"{i}. Marrakesh",
-							City = "D.C.",
-							Country = "USA",
-						});
-					context.Restaurants.Add(
-						new Restaurant
-						{
-							Name = $"The House of {i} Elliot",
-							City = "Ghent",
-							Country = "Belgium",
-						});
-				}
-				context.SaveChanges();
-			}
-		}
-
-		public static void SeedIdentity(UserManager<UserProfile> userManager, RoleManager<AppRole> roleManager)
-		{
-			var role = new AppRole();
-			role.Name = "Admin";
-			if (!roleManager.RoleExistsAsync("Admin").Result)
-			{
-				var result = roleManager.CreateAsync(role).Result;
-				if (!result.Succeeded)
-				{
-					foreach (var identityError in result.Errors)
+				context.Restaurants.Add(
+					new Restaurant
 					{
-						Console.WriteLine($"Can not create role! Error: {identityError.Description}");
-					}
-				}
+						Name = "Cinnamon Club",
+						City = "London",
+						Country = "UK",
+					});
+				context.Restaurants.Add(
+					new Restaurant
+					{
+						Name = "Marrakesh",
+						City = "D.C.",
+						Country = "USA",
+					});
+				context.Restaurants.Add(
+					new Restaurant
+					{
+						Name = "The House of Elliot",
+						City = "Ghent",
+						Country = "Belgium",
+					});
+				context.SaveChanges();
 			}
 		}
 	}

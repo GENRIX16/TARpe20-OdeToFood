@@ -116,7 +116,7 @@ namespace OdeToFood
 					System.Threading.Thread.Sleep(1000);
 				}
 			}
-			AppDataInit.SeedIdentity(userManager, roleManager);
+			
 			AppDataInit.SeedRestaurant(context);			
 		}
 	}
