@@ -38,25 +38,29 @@ namespace OdeToFood.Controllers
 
 		public IActionResult Index(string searchTerm = null, int page = 1)
 		{
-			var model = _context.Restaurants
-				.OrderByDescending(
-					r => r.Reviews.Average(review => review.Rating)
-					)
-				.Where(r => searchTerm == null || r.Name.Contains(searchTerm))
-				.Select(r => new RestaurantListViewModel
+			var model =
+				from r in _context.Restaurants
+				orderby r.Reviews.Average(review => review.Rating) descending
+				select new RestaurantListViewModel
 				{
 					Id = r.Id,
 					Name = r.Name,
 					City = r.City,
 					Country = r.Country,
 					CountOfReviews = r.Reviews.Count
-				}).ToPagedList(page,10);
-
-			
-			if (Request.IsAjaxRequest())
-			{
-				return PartialView("_Restaurants", model);
-			}
+				};
+			//var model = _context.Restaurants
+			//	.OrderByDescending(
+			//		r => r.Reviews.Average(review => review.Rating)
+			//		)
+			//	.Select(r => new RestaurantListViewModel
+			//	{
+			//		Id = r.Id,
+			//		Name = r.Name,
+			//		City = r.City,
+			//		Country = r.Country,
+			//		CountOfReviews = r.Reviews.Count
+			//	});
 
 			return View(model);
 		}
@@ -64,7 +68,7 @@ namespace OdeToFood.Controllers
 		{
 			var model = new AboutModel()
 			{
-				Name = "Kristjan Kivikangur",
+				Name = "Genri Valkrusman",
 				Location = "Tallinn"
 			};
 			return View(model);
@@ -73,7 +77,6 @@ namespace OdeToFood.Controllers
 		{
 			return View();
 		}
-
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
@@ -81,3 +84,4 @@ namespace OdeToFood.Controllers
 		}
 	}
 }
+

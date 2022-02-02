@@ -18,6 +18,14 @@ namespace OdeToFood.Data
 						Name = "Cinnamon Club",
 						City = "London",
 						Country = "UK",
+						Reviews = new List<RestaurantReview>()
+						{
+							new RestaurantReview()
+							{
+								Rating = 10,
+								Body = "Superlahe"
+							}
+						}
 					});
 				context.Restaurants.Add(
 					new Restaurant
